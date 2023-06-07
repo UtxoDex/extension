@@ -1,9 +1,9 @@
-# UniSat Wallet
+# Utxodex Wallet
 
-UniSat Wallet - the first open-source browser extension wallet for Ordinals on bitcoin.
+Utxodex Wallet - the first open-source browser extension wallet for Ordinals on bitcoin.
 
-- Website: https://unisat.io/
-- Twitter: https://twitter.com/unisat_wallet
+- Website: https://utxodex.com/
+- Twitter: https://twitter.com/UtxoDex
 
 ## How to build
 
@@ -16,4 +16,4 @@ UniSat Wallet - the first open-source browser extension wallet for Ordinals on b
 
 ## Special Thanks
 
-Thanks to the MetaMask team for their contributions to the browser extension wallet community, UniSat Wallet relies heavily on their contributions.
+Thanks to the MetaMask team for their contributions to the browser extension wallet community, Utxodex Wallet relies heavily on their contributions.

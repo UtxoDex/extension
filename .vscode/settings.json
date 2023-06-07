@@ -3,5 +3,9 @@
     "source.fixAll.eslint": true
   },
   "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "eslint.workingDirectories": [{ "mode": "auto" }],
+  "nuxt.isNuxtApp": false,
+  "vetur.validation.template": false,
+  "eslint.nodeEnv": ""
 }
