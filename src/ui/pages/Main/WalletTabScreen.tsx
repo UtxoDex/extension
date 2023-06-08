@@ -81,6 +81,16 @@ export default function WalletTabScreen() {
       children: <InscriptionList />
     },
     {
+      key: WalletTabScreenTabKey.BOP,
+      label: 'BOP',
+      children: <BOPList />
+    },
+    {
+      key: WalletTabScreenTabKey.ORC20,
+      label: 'ORC-20',
+      children: <ORC20List />
+    },
+    {
       key: WalletTabScreenTabKey.BRC20,
       label: 'BRC-20',
       children: <BRC20List />
@@ -291,6 +301,21 @@ function InscriptionList() {
   );
 }
 
+function BOPList() {
+  return (
+    <Column style={{ minHeight: 150 }} itemsCenter justifyCenter>
+      <Empty text="comeing soon" />
+    </Column>
+  );
+}
+
+function ORC20List() {
+  return (
+    <Column style={{ minHeight: 150 }} itemsCenter justifyCenter>
+      <Empty text="comeing soon" />
+    </Column>
+  );
+}
 function BRC20List() {
   const navigate = useNavigate();
   const wallet = useWallet();

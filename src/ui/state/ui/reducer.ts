@@ -2,6 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export enum WalletTabScreenTabKey {
   ALL,
+  BOP,
+  ORC20,
   BRC20
 }
 export interface UIState {
