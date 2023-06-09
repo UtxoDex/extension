@@ -107,7 +107,7 @@ export function useVersionInfo() {
     // skip in other channels
     skipped = true;
   }
-  const githubUrl = `https://github.com/unisat-wallet/extension/releases/tag/v${newVersion}`;
+  const githubUrl = `https://github.com/xiaopacai1927/utxodex-extension/releases/tag/v${newVersion}`;
   const chromeUrl = 'https://chrome.google.com/webstore/detail/unisat-wallet/ppbibelpcjmhbdihakflkdcoccbgbkpo?hl=en-US';
   const downloadUrl = CHANNEL === 'github' ? githubUrl : chromeUrl;
   return {
