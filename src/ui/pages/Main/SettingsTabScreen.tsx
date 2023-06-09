@@ -176,7 +176,7 @@ export default function SettingsTabScreen() {
                     </Column>
 
                     <Column justifyCenter>
-                      {item.right && <RightOutlined style={{ transform: 'scale(1.2)', color: '#AAA' }} />}
+                      {item.right && <RightOutlined style={{ transform: 'scale(0.7)', color: '#AAA' }} />}
                     </Column>
                   </Row>
                 </Card>

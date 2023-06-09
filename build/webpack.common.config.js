@@ -100,10 +100,10 @@ const config = (env) => {
           lessOptions: {
             modifyVars: {
               'primary-color': 'rgb(234,202,68)',
-              'primary-color-active': '#383535',
+              'primary-color-active': '#1e293b',
               'input-icon-hover-color': '#FFFFFF',
-              'component-background': '#1C1919',
-              'select-dropdown-bg': '#2A2626',
+              'component-background': '#0f172a',
+              'select-dropdown-bg': '#020617',
               'select-item-selected-bg': '#332F2F',
               'select-item-active-bg': '#332F2F',
               'input-border-color': 'rgba(255,255,255,0.2)',
@@ -115,7 +115,7 @@ const config = (env) => {
               'animation-duration-slow': '0.08s',
               'animation-duration-base': '0.08s',
               // "checkbox-border-width": "1px",
-              'layout-header-background': '#2A2626',
+              'layout-header-background': '#020617',
               'layout-header-padding': '0 1.875rem',
               'layout-header-height': '5.625rem',
               'layout-footer-padding': 'unset',
@@ -130,7 +130,7 @@ const config = (env) => {
               'text-color-secondary': '#AAAAAA',
               'height-lg': '3.875rem',
               'checkbox-size': '1.5rem',
-              'btn-text-hover-bg': '#383535',
+              'btn-text-hover-bg': '#1e293b',
               'input-disabled-color': 'rgba(255,255,255,0.6)'
             },
             javascriptEnabled: true

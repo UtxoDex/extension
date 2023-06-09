@@ -45,7 +45,7 @@ const $baseContainerStyle: CSSProperties = {
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
-  backgroundColor: '#2a2626',
+  backgroundColor: '#020617',
   paddingLeft: 15.2,
   paddingRight: 15.2,
   paddingTop: 11,

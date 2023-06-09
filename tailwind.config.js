@@ -19,9 +19,9 @@ module.exports = {
       },
       colors: {
         primary: 'rgb(234,202,68)',
-        'primary-active': '#383535',
-        'hard-black': '#1C1919',
-        'soft-black': '#2A2626',
+        'primary-active': '#1e293b',
+        'hard-black': '#0f172a',
+        'soft-black': '#020617',
         'soft-white': '#AAAAAA',
         'custom-green': '#4BB21A',
         'custom-green-rgba': 'rgba(75, 178, 26, 0.05)',

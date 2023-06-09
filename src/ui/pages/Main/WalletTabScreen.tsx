@@ -304,7 +304,7 @@ function InscriptionList() {
 function BOPList() {
   return (
     <Column style={{ minHeight: 150 }} itemsCenter justifyCenter>
-      <Empty text="comeing soon" />
+      <Empty text="coming soon" />
     </Column>
   );
 }
@@ -312,7 +312,7 @@ function BOPList() {
 function ORC20List() {
   return (
     <Column style={{ minHeight: 150 }} itemsCenter justifyCenter>
-      <Empty text="comeing soon" />
+      <Empty text="coming soon" />
     </Column>
   );
 }

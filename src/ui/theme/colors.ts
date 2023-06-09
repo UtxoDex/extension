@@ -11,7 +11,7 @@ const palette = {
   grey: '#495361',
   light: '#A2A4AA',
 
-  black_dark: '#2a2626',
+  black_dark: '#020617',
 
   green_dark: '#379a29',
   green: '#41B530',
@@ -49,13 +49,13 @@ export const colors = Object.assign({}, palette, {
 
   danger: palette.red,
 
-  card: '#262222',
+  card: '#020617',
   warning: palette.orange,
   primary: palette.yellow,
 
-  bg2: '#2a2a2a',
+  bg2: '#020617',
   bg3: '#434242',
-  bg4: '#383535',
+  bg4: '#1e293b',
 
   border: 'rgba(255,255,255,0.1)'
 });
