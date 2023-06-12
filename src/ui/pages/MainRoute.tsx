@@ -22,6 +22,7 @@ import UnlockScreen from './Account/UnlockScreen';
 import ApprovalScreen from './Approval/ApprovalScreen';
 import ConnectedSitesScreen from './Approval/ConnectedSitesScreen';
 import { InscribeTransferScreen } from './Approval/components/InscribeTransfer';
+import { InscribeORC20TransferScreen } from './Approval/components/InscribeTransfer-ORC20';
 import BRC20SendScreen from './BRC20/BRC20SendScreen';
 import BRC20TokenScreen from './BRC20/BRC20TokenScreen';
 import AppTabScrren from './Main/AppTabScreen';
@@ -30,6 +31,8 @@ import DiscoverTabScreen from './Main/DiscoverTabScreen';
 import SettingsTabScreen from './Main/SettingsTabScreen';
 import WalletTabScreen from './Main/WalletTabScreen';
 import WelcomeScreen from './Main/WelcomeScreen';
+import ORC20SendScreen from './ORC20/ORC20SendScreen';
+import ORC20TokenScreen from './ORC20/ORC20TokenScreen';
 import AddressTypeScreen from './Settings/AddressTypeScreen';
 import ChangePasswordScreen from './Settings/ChangePasswordScreen';
 import EditAccountNameScreen from './Settings/EditAccountNameScreen';
@@ -199,6 +202,19 @@ const routes = {
   BRC20TokenScreen: {
     path: '/brc20/token',
     element: <BRC20TokenScreen />
+  },
+  // ORC-20
+  InscribeORC20TransferScreen: {
+    path: '/inscribe/orc20/transfer',
+    element: <InscribeORC20TransferScreen />
+  },
+  ORC20SendScreen: {
+    path: '/Orc20/send',
+    element: <ORC20SendScreen />
+  },
+  ORC20TokenScreen: {
+    path: '/orc20/token',
+    element: <ORC20TokenScreen />
   },
   TestScreen: {
     path: '/test',

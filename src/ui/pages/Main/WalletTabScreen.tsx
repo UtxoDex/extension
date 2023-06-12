@@ -12,6 +12,7 @@ import { Button } from '@/ui/components/Button';
 import { Empty } from '@/ui/components/Empty';
 import InscriptionPreview from '@/ui/components/InscriptionPreview';
 import { NavTabBar } from '@/ui/components/NavTabBar';
+import ORC20BalanceCard from '@/ui/components/ORC20BalanceCard';
 import { Pagination } from '@/ui/components/Pagination';
 import { TabBar } from '@/ui/components/TabBar';
 import { UpgradePopver } from '@/ui/components/UpgradePopver';
@@ -81,11 +82,6 @@ export default function WalletTabScreen() {
       children: <InscriptionList />
     },
     {
-      key: WalletTabScreenTabKey.BOP,
-      label: 'BOP',
-      children: <BOPList />
-    },
-    {
       key: WalletTabScreenTabKey.ORC20,
       label: 'ORC-20',
       children: <ORC20List />
@@ -94,6 +90,11 @@ export default function WalletTabScreen() {
       key: WalletTabScreenTabKey.BRC20,
       label: 'BRC-20',
       children: <BRC20List />
+    },
+    {
+      key: WalletTabScreenTabKey.BOP,
+      label: 'BOP',
+      children: <BOPList />
     }
   ];
 
@@ -301,18 +302,76 @@ function InscriptionList() {
   );
 }
 
-function BOPList() {
-  return (
-    <Column style={{ minHeight: 150 }} itemsCenter justifyCenter>
-      <Empty text="coming soon" />
-    </Column>
-  );
-}
-
 function ORC20List() {
+  const navigate = useNavigate();
+  const wallet = useWallet();
+  const currentAccount = useCurrentAccount();
+
+  const [tokens, setTokens] = useState<TokenBalance[]>([]);
+  const [total, setTotal] = useState(-1);
+  const [pagination, setPagination] = useState({ currentPage: 1, pageSize: 100 });
+
+  const tools = useTools();
+  const fetchData = async () => {
+    try {
+      // tools.showLoading(true);
+      const { list, total } = await wallet.getBRC20List(
+        currentAccount.address,
+        pagination.currentPage,
+        pagination.pageSize
+      );
+      setTokens(list);
+      setTotal(total);
+    } catch (e) {
+      tools.toastError((e as Error).message);
+    } finally {
+      // tools.showLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [pagination]);
+
+  if (total === -1) {
+    return (
+      <Column style={{ minHeight: 150 }} itemsCenter justifyCenter>
+        <LoadingOutlined />
+      </Column>
+    );
+  }
+
+  if (total === 0) {
+    return (
+      <Column style={{ minHeight: 150 }} itemsCenter justifyCenter>
+        <Empty text="Empty" />
+      </Column>
+    );
+  }
+
   return (
-    <Column style={{ minHeight: 150 }} itemsCenter justifyCenter>
-      <Empty text="coming soon" />
+    <Column>
+      <Row style={{ flexWrap: 'wrap' }} gap="sm">
+        {tokens.map((data, index) => (
+          <ORC20BalanceCard
+            key={index}
+            tokenBalance={data}
+            onClick={() => {
+              navigate('ORC20TokenScreen', { tokenBalance: data, ticker: data.ticker });
+            }}
+          />
+        ))}
+      </Row>
+
+      <Row justifyCenter mt="lg">
+        <Pagination
+          pagination={pagination}
+          total={total}
+          onChange={(pagination) => {
+            setPagination(pagination);
+          }}
+        />
+      </Row>
     </Column>
   );
 }
@@ -386,6 +445,14 @@ function BRC20List() {
           }}
         />
       </Row>
+    </Column>
+  );
+}
+
+function BOPList() {
+  return (
+    <Column style={{ minHeight: 150 }} itemsCenter justifyCenter>
+      <Empty text="coming soon" />
     </Column>
   );
 }

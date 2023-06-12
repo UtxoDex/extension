@@ -183,6 +183,22 @@ export interface WalletController {
 
   getBRC20Summary(address: string, ticker: string): Promise<AddressTokenSummary>;
 
+  // orc-20
+  getORC20List(
+    address: string,
+    currentPage: number,
+    pageSize: number
+  ): Promise<{ currentPage: number; pageSize: number; total: number; list: TokenBalance[] }>;
+
+  getORC20TransferableList(
+    address: string,
+    ticker: string,
+    currentPage: number,
+    pageSize: number
+  ): Promise<{ currentPage: number; pageSize: number; total: number; list: TokenTransfer[] }>;
+
+  getORC20Summary(address: string, ticker: string): Promise<AddressTokenSummary>;
+
   expireUICachedData(address: string): Promise<void>;
 
   createMoonpayUrl(address: string): Promise<string>;

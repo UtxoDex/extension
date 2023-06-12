@@ -2,13 +2,13 @@
   "name": "unisat-extension",
   "version": "1.1.21",
   "private": true,
-  "homepage": "https://github.com/unisat-wallet/extension#readme",
+  "homepage": "https://github.com/xiaopacai1927/utxodex-extension/extension#readme",
   "bugs": {
-    "url": "https://github.com/unisat-wallet/extension/issues"
+    "url": "https://github.com/xiaopacai1927/utxodex-extension/extension/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/unisat-wallet/extension.git"
+    "url": "https://github.com/xiaopacai1927/utxodex-extension/extension.git"
   },
   "scripts": {
     "clean": "mkdir -p dist && rm -rf dist/* && cp -r build/_raw/* dist",
@@ -17,7 +17,7 @@
     "build:firefox": "gulp build --env=pro --browser=firefox --manifest=mv2 --channel=github",
     "build:brave": "gulp build --env=pro --browser=brave --manifest=mv2 --channel=github",
     "build:edge": "gulp build --env=pro --browser=edge --manifest=mv2 --channel=github",
-    "build:chrome:mv3:dev": "webpack --progress --env browser=chrome manifest=mv3 config=dev channel=github version=0.0.0",
+    "build:chrome:mv3:dev": "webpack --progress --env browser=chrome manifest=mv3 config=dev channel=github version=1.1.21",
     "build:chrome:mv3": "gulp build --env=pro --browser=chrome --manifest=mv3 --channel=store",
     "translate": "node build/pull_translation",
     "lint": "eslint src --fix --ext .js,.ts,.tsx,.json  && npm run format",

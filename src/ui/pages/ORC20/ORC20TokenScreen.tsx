@@ -2,8 +2,8 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { AddressTokenSummary } from '@/shared/types';
 import { Button, Column, Content, Header, Layout, Row, Text } from '@/ui/components';
-import BRC20Preview from '@/ui/components/BRC20Preview';
 import { Empty } from '@/ui/components/Empty';
+import ORC20Preview from '@/ui/components/ORC20Preview';
 import { useCurrentAccount } from '@/ui/state/accounts/hooks';
 import { colors } from '@/ui/theme/colors';
 import { useLocationState, useWallet, useBaseLocationUri } from '@/ui/utils';
@@ -58,7 +58,8 @@ export default function BRC20TokenScreen() {
   const outOfMint = tokenSummary.tokenInfo.totalMinted == tokenSummary.tokenInfo.totalSupply;
 
   const shouldShowSafe = tokenSummary.tokenBalance.availableBalanceSafe !== tokenSummary.tokenBalance.availableBalance;
-  const locationUri = useBaseLocationUri();
+
+  const locationUrl = useBaseLocationUri();
   return (
     <Layout>
       <Header
@@ -78,7 +79,7 @@ export default function BRC20TokenScreen() {
                 disabled={outOfMint}
                 icon="pencil"
                 onClick={(e) => {
-                  window.open(`${locationUri}brc-20/${encodeURIComponent(ticker)}`);
+                  window.open(`${locationUrl}/orc-20/${encodeURIComponent(ticker)}`);
                 }}
                 full
               />
@@ -92,7 +93,7 @@ export default function BRC20TokenScreen() {
                   const defaultSelected = tokenSummary.transferableList.slice(0, 1);
                   const selectedInscriptionIds = defaultSelected.map((v) => v.inscriptionId);
                   const selectedAmount = defaultSelected.reduce((pre, cur) => parseInt(cur.amount) + pre, 0);
-                  navigate('BRC20SendScreen', {
+                  navigate('ORC20SendScreen', {
                     tokenBalance: tokenSummary.tokenBalance,
                     selectedInscriptionIds,
                     selectedAmount
@@ -122,7 +123,7 @@ export default function BRC20TokenScreen() {
                   }}
                 /> */}
                 {tokenSummary.transferableList.map((v) => (
-                  <BRC20Preview
+                  <ORC20Preview
                     key={v.inscriptionId}
                     tick={ticker}
                     balance={v.amount}
@@ -140,7 +141,7 @@ export default function BRC20TokenScreen() {
               </Row>
             ) : (
               tokenSummary.transferableList.length > 0 && (
-                <BRC20Preview
+                <ORC20Preview
                   tick={ticker}
                   balance={tokenSummary.transferableList[0].amount}
                   inscriptionNumber={tokenSummary.transferableList[0].inscriptionNumber}
@@ -185,7 +186,7 @@ export default function BRC20TokenScreen() {
                   }}
                 /> */}
                 {tokenSummary.historyList.map((v) => (
-                  <BRC20Preview
+                  <ORC20Preview
                     key={v.inscriptionId}
                     tick={ticker}
                     balance={v.amount}
@@ -197,7 +198,7 @@ export default function BRC20TokenScreen() {
               </Row>
             ) : (
               tokenSummary.historyList.length > 0 && (
-                <BRC20Preview
+                <ORC20Preview
                   tick={ticker}
                   balance={tokenSummary.historyList[0].amount}
                   inscriptionNumber={tokenSummary.historyList[0].inscriptionNumber}
