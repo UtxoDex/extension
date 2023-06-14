@@ -1,7 +1,13 @@
 import randomstring from 'randomstring';
 
 import { createPersistStore } from '@/background/utils';
-import { CHANNEL, OPENAPI_URL_MAINNET, OPENAPI_URL_TESTNET, VERSION } from '@/shared/constant';
+import {
+  CHANNEL,
+  OPENAPI_URL_MAINNET,
+  OPENAPI_URL_TESTNET,
+  VERSION,
+  ORC20_OPENAPI_URL_MAINNET
+} from '@/shared/constant';
 import {
   AddressAssets,
   AppSummary,
@@ -21,6 +27,7 @@ import {
 
 interface OpenApiStore {
   host: string;
+  orc20Host: string;
   deviceId: string;
   config?: WalletConfig;
 }
@@ -43,18 +50,29 @@ export class OpenApiService {
   getHost = () => {
     return this.store.host;
   };
+  setOrc20Host = async (host: string) => {
+    this.store.orc20Host = host;
+    await this.init();
+  };
+  getOrc20Host = () => {
+    return this.store.orc20Host;
+  };
 
   init = async () => {
     this.store = await createPersistStore({
       name: 'openapi',
       template: {
         host: OPENAPI_URL_MAINNET,
+        orc20Host: ORC20_OPENAPI_URL_MAINNET,
         deviceId: randomstring.generate(12)
       }
     });
 
     if ([OPENAPI_URL_MAINNET, OPENAPI_URL_TESTNET].includes(this.store.host) === false) {
       this.store.host = OPENAPI_URL_MAINNET;
+    }
+    if ([ORC20_OPENAPI_URL_MAINNET].includes(this.store.orc20Host) === false) {
+      this.store.orc20Host = ORC20_OPENAPI_URL_MAINNET;
     }
 
     if (!this.store.deviceId) {
@@ -104,6 +122,49 @@ export class OpenApiService {
 
   httpPost = async (route: string, params: any) => {
     const url = this.getHost() + route;
+    const headers = new Headers();
+    headers.append('X-Client', 'UniSat Wallet');
+    headers.append('X-Version', VERSION);
+    headers.append('x-address', this.clientAddress);
+    headers.append('x-channel', CHANNEL);
+    headers.append('x-udid', this.store.deviceId);
+    headers.append('Content-Type', 'application/json;charset=utf-8');
+    const res = await fetch(new Request(url), {
+      method: 'POST',
+      headers,
+      mode: 'cors',
+      cache: 'default',
+      body: JSON.stringify(params)
+    });
+    const data = await res.json();
+    return data;
+  };
+  // for orc-20
+  orc20HttpGet = async (route: string, params: any) => {
+    let url = this.getOrc20Host() + route;
+    let c = 0;
+    for (const id in params) {
+      if (c == 0) {
+        url += '?';
+      } else {
+        url += '&';
+      }
+      url += `${id}=${params[id]}`;
+      c++;
+    }
+    const headers = new Headers();
+    headers.append('X-Client', 'UniSat Wallet');
+    headers.append('X-Version', VERSION);
+    headers.append('x-address', this.clientAddress);
+    headers.append('x-channel', CHANNEL);
+    headers.append('x-udid', this.store.deviceId);
+    const res = await fetch(new Request(url), { method: 'GET', headers, mode: 'cors', cache: 'default' });
+    const data = await res.json();
+    return data;
+  };
+
+  orc20HttpPost = async (route: string, params: any) => {
+    const url = this.getOrc20Host() + route;
     const headers = new Headers();
     headers.append('X-Client', 'UniSat Wallet');
     headers.append('X-Version', VERSION);
@@ -172,6 +233,15 @@ export class OpenApiService {
 
   async getInscriptionUtxos(inscriptionIds: string[]): Promise<UTXO[]> {
     const data = await this.httpPost('/inscription/utxos', {
+      inscriptionIds
+    });
+    if (data.status == API_STATUS.FAILED) {
+      throw new Error(data.message);
+    }
+    return data.result;
+  }
+  async getOrc20InscriptionUtxos(inscriptionIds: string[]): Promise<UTXO[]> {
+    const data = await this.orc20HttpPost('/inscription/utxos', {
       inscriptionIds
     });
     if (data.status == API_STATUS.FAILED) {
@@ -263,6 +333,35 @@ export class OpenApiService {
     }
     return data.result;
   }
+  async inscribeORC20Transfer(
+    address: string,
+    tick: string,
+    amount: string,
+    feeRate: number,
+    id: number,
+    n: number
+  ): Promise<InscribeOrder> {
+    const data = await this.orc20HttpPost('/api/wallet/orc20/inscribe-transfer', {
+      address,
+      tick,
+      amount,
+      feeRate,
+      id,
+      n
+    });
+    if (data.status == API_STATUS.FAILED) {
+      throw new Error(data.message);
+    }
+    return data.result;
+  }
+
+  async getInscribeOrc20Result(orderId: string): Promise<TokenTransfer> {
+    const data = await this.orc20HttpGet('/api/wallet/orc20/order-result', { orderId });
+    if (data.status == API_STATUS.FAILED) {
+      throw new Error(data.message);
+    }
+    return data.result;
+  }
 
   async getAddressTokenBalances(
     address: string,
@@ -276,8 +375,27 @@ export class OpenApiService {
     return data.result;
   }
 
+  async getAddressOrc20TokenBalances(
+    address: string,
+    cursor: number,
+    size: number
+  ): Promise<{ list: TokenBalance[]; total: number }> {
+    const data = await this.orc20HttpGet('/api/wallet/tokens/balance', { address, offset: cursor, limit: size });
+
+    if (data.status == API_STATUS.FAILED) {
+      throw new Error(data.message);
+    }
+    return data.result;
+  }
   async getAddressTokenSummary(address: string, ticker: string): Promise<AddressTokenSummary> {
     const data = await this.httpGet('/brc20/token-summary', { address, ticker: encodeURIComponent(ticker) });
+    if (data.status == API_STATUS.FAILED) {
+      throw new Error(data.message);
+    }
+    return data.result;
+  }
+  async getAddressOrc20TokenSummary(address: string, id: string): Promise<AddressTokenSummary> {
+    const data = await this.orc20HttpGet('/api/wallet/orc20/token-summary', { address, id });
     if (data.status == API_STATUS.FAILED) {
       throw new Error(data.message);
     }
@@ -291,6 +409,23 @@ export class OpenApiService {
     size: number
   ): Promise<{ list: TokenTransfer[]; total: number }> {
     const data = await this.httpGet('/brc20/transferable-list', {
+      address,
+      ticker: encodeURIComponent(ticker),
+      cursor,
+      size
+    });
+    if (data.status == API_STATUS.FAILED) {
+      throw new Error(data.message);
+    }
+    return data.result;
+  }
+  async getOrc20TokenTransferableList(
+    address: string,
+    ticker: string,
+    cursor: number,
+    size: number
+  ): Promise<{ list: TokenTransfer[]; total: number }> {
+    const data = await this.orc20HttpGet('/api/wallet/orc20/transferable-list', {
       address,
       ticker: encodeURIComponent(ticker),
       cursor,

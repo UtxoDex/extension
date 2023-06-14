@@ -55,7 +55,7 @@ export const colors = Object.assign({}, palette, {
 
   bg2: '#020617',
   bg3: '#434242',
-  bg4: '#1e293b',
+  bg4: '#334155',
 
   border: 'rgba(255,255,255,0.1)'
 });

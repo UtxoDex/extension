@@ -90,12 +90,12 @@ export default function WalletTabScreen() {
       key: WalletTabScreenTabKey.BRC20,
       label: 'BRC-20',
       children: <BRC20List />
-    },
-    {
-      key: WalletTabScreenTabKey.BOP,
-      label: 'BOP',
-      children: <BOPList />
     }
+    // {
+    //   key: WalletTabScreenTabKey.BOP,
+    //   label: 'BOP',
+    //   children: <BOPList />
+    // }
   ];
 
   const blockstreamUrl = useBlockstreamUrl();
@@ -315,7 +315,7 @@ function ORC20List() {
   const fetchData = async () => {
     try {
       // tools.showLoading(true);
-      const { list, total } = await wallet.getBRC20List(
+      const { list, total } = await wallet.getORC20List(
         currentAccount.address,
         pagination.currentPage,
         pagination.pageSize

@@ -160,6 +160,15 @@ export interface WalletController {
   inscribeBRC20Transfer(address: string, tick: string, amount: string, feeRate: number): Promise<InscribeOrder>;
   getInscribeResult(orderId: string): Promise<TokenTransfer>;
 
+  inscribeORC20Transfer(
+    address: string,
+    tick: string,
+    amount: string,
+    feeRate: number,
+    id: number,
+    n: number
+  ): Promise<InscribeOrder>;
+  getInscribeOrc20Result(orderId: string): Promise<TokenTransfer>;
   decodePsbt(psbtHex: string): Promise<DecodedPsbt>;
 
   getAllInscriptionList(
@@ -197,7 +206,7 @@ export interface WalletController {
     pageSize: number
   ): Promise<{ currentPage: number; pageSize: number; total: number; list: TokenTransfer[] }>;
 
-  getORC20Summary(address: string, ticker: string): Promise<AddressTokenSummary>;
+  getORC20Summary(address: string, id: string): Promise<AddressTokenSummary>;
 
   expireUICachedData(address: string): Promise<void>;
 

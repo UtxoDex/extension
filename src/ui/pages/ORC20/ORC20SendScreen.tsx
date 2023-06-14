@@ -15,7 +15,7 @@ import { colors } from '@/ui/theme/colors';
 import { fontSizes } from '@/ui/theme/font';
 import { useWallet } from '@/ui/utils';
 
-import { SignPsbt } from '../Approval/components';
+import { TakeOut } from '../Approval/components';
 import { useNavigate } from '../MainRoute';
 
 function Step1({
@@ -63,7 +63,12 @@ function Step1({
             <Column style={{ width: 250 }}>
               <Column>
                 <Column
-                  style={{ borderWidth: 1, borderColor: colors.border, borderRadius: 10 }}
+                  style={{
+                    borderWidth: 1,
+                    borderColor: colors.border,
+                    borderRadius: 10,
+                    backgroundColor: colors.dark
+                  }}
                   px="md"
                   py="md"
                   onClick={() => {
@@ -143,7 +148,7 @@ function TransferableList({
   const fetchData = async () => {
     try {
       tools.showLoading(true);
-      const { list, total } = await wallet.getBRC20TransferableList(
+      const { list, total } = await wallet.getORC20TransferableList(
         currentAccount.address,
         contextData.tokenBalance.ticker,
         pagination.currentPage,
@@ -299,14 +304,15 @@ function Step2({
   const onClickNext = async () => {
     try {
       tools.showLoading(true);
-      const inscriptionIds = Array.from(contextData.inscriptionIdSet);
-      const rawTxInfo = await createOrdinalsTx(
-        { address: contextData.receiver, domain: '' },
-        inscriptionIds,
-        contextData.feeRate
-      );
-      navigate('OrdinalsTxConfirmScreen', { rawTxInfo });
-      // updateContextData({ tabKey: TabKey.STEP3, rawTxInfo: txInfo });
+      // const inscriptionIds = Array.from(contextData.inscriptionIdSet);
+      // const rawTxInfo = await createOrdinalsTx(
+      //   { address: contextData.receiver, domain: '' },
+      //   inscriptionIds,
+      //   contextData.feeRate
+      // );
+      // // navigate('OrdinalsTxConfirmScreen', { rawTxInfo });
+      // rawTxInfo: rawTxInfo
+      updateContextData({ tabKey: TabKey.STEP3 });
     } catch (e) {
       const error = e as Error;
       console.log(error);
@@ -362,7 +368,7 @@ function Step3({
   const pushOrdinalsTx = usePushOrdinalsTxCallback();
   const navigate = useNavigate();
   return (
-    <SignPsbt
+    <TakeOut
       params={{
         data: {
           psbtHex: contextData.rawTxInfo.psbtHex,
@@ -470,8 +476,8 @@ export default function BRC20SendScreen() {
           activeKey={contextData.tabKey}
           items={[
             { key: TabKey.STEP1, label: 'Step1' },
-            { key: TabKey.STEP2, label: 'Step2' }
-            // { key: TabKey.STEP3, label: 'Step3' }
+            { key: TabKey.STEP2, label: 'Step2' },
+            { key: TabKey.STEP3, label: 'Step3' }
           ]}
           onTabClick={(key) => {
             updateContextData({ tabKey: key });

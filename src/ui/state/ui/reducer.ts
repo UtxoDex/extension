@@ -4,7 +4,7 @@ export enum WalletTabScreenTabKey {
   ALL,
   ORC20,
   BRC20,
-  BOP,
+  // BOP,
 }
 export interface UIState {
   walletTabScreen: {

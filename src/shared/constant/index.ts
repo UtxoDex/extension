@@ -227,6 +227,7 @@ export const INTERNAL_REQUEST_SESSION = {
   icon: './images/logo/logo@128x.png'
 };
 
+export const ORC20_OPENAPI_URL_MAINNET = 'http://localhost:3000'
 export const OPENAPI_URL_MAINNET = 'https://unisat.io/wallet-api-v4';
 export const OPENAPI_URL_TESTNET = 'https://unisat.io/testnet/wallet-api-v4';
 
@@ -265,7 +266,7 @@ export const SATS_DOMAIN = '.sats';
 export const UNISAT_DOMAIN = '.unisat';
 
 export const GITHUB_URL = 'https://github.com/xiaopacai1927/utxodex-extension';
-export const DISCORD_URL = 'https://discord.com/invite/52Bn53ak';
+export const DISCORD_URL = 'https://discord.gg/KkpTb4Qkz6';
 export const TWITTER_URL = 'https://twitter.com/UtxoDex';
 
 export const CHANNEL = process.env.channel!;

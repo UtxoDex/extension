@@ -982,6 +982,14 @@ export class WalletController extends BaseController {
     return openapiService.getInscribeResult(orderId);
   };
 
+  inscribeORC20Transfer = (address: string, tick: string, amount: string, feeRate: number, id: number, n: number) => {
+    return openapiService.inscribeORC20Transfer(address, tick, amount, feeRate, id, n);
+  };
+
+  getInscribeOrc20Result = (orderId: string) => {
+    return openapiService.getInscribeOrc20Result(orderId);
+  };
+
   decodePsbt = (psbtHex: string) => {
     return openapiService.decodePsbt(psbtHex);
   };
@@ -997,6 +1005,29 @@ export class WalletController extends BaseController {
 
     const { total, list } = await openapiService.getAddressTokenBalances(address, cursor, size);
     uiCachedData.brc20List[currentPage] = {
+      currentPage,
+      pageSize,
+      total,
+      list
+    };
+    return {
+      currentPage,
+      pageSize,
+      total,
+      list
+    };
+  };
+  getORC20List = async (address: string, currentPage: number, pageSize: number) => {
+    const cursor = (currentPage - 1) * pageSize;
+    const size = pageSize;
+
+    const uiCachedData = preferenceService.getUICachedData(address);
+    if (uiCachedData.orc20List[currentPage]) {
+      return uiCachedData.orc20List[currentPage];
+    }
+
+    const { total, list } = await openapiService.getAddressOrc20TokenBalances(address, cursor, size);
+    uiCachedData.orc20List[currentPage] = {
       currentPage,
       pageSize,
       total,
@@ -1044,6 +1075,18 @@ export class WalletController extends BaseController {
     uiCachedData.brc20Summary[ticker] = tokenSummary;
     return tokenSummary;
   };
+  getORC20Summary = async (address: string, inscribleId: string) => {
+    const uiCachedData = preferenceService.getUICachedData(address);
+    if (uiCachedData.orc20Summary[inscribleId]) {
+      return uiCachedData.orc20Summary[inscribleId];
+    }
+
+    const tokenSummary = await openapiService.getAddressOrc20TokenSummary(address, inscribleId);
+    console.log(tokenSummary, '/tokenSummary');
+
+    uiCachedData.orc20Summary[inscribleId] = tokenSummary;
+    return tokenSummary;
+  };
 
   getBRC20TransferableList = async (address: string, ticker: string, currentPage: number, pageSize: number) => {
     const cursor = (currentPage - 1) * pageSize;
@@ -1058,6 +1101,32 @@ export class WalletController extends BaseController {
     }
 
     const { total, list } = await openapiService.getTokenTransferableList(address, ticker, cursor, size);
+    uiCachedData.brc20TransferableList[ticker][currentPage] = {
+      currentPage,
+      pageSize,
+      total,
+      list
+    };
+    return {
+      currentPage,
+      pageSize,
+      total,
+      list
+    };
+  };
+  getORC20TransferableList = async (address: string, ticker: string, currentPage: number, pageSize: number) => {
+    const cursor = (currentPage - 1) * pageSize;
+    const size = pageSize;
+
+    const uiCachedData = preferenceService.getUICachedData(address);
+    if (uiCachedData.brc20TransferableList[ticker] && uiCachedData.brc20TransferableList[ticker][currentPage]) {
+      return uiCachedData.brc20TransferableList[ticker][currentPage];
+    }
+    if (!uiCachedData.brc20TransferableList[ticker]) {
+      uiCachedData.brc20TransferableList[ticker] = [];
+    }
+
+    const { total, list } = await openapiService.getOrc20TokenTransferableList(address, ticker, cursor, size);
     uiCachedData.brc20TransferableList[ticker][currentPage] = {
       currentPage,
       pageSize,

@@ -53,6 +53,8 @@ interface ContextData {
   rawTxInfo?: RawTxInfo;
   amount?: number;
   isApproval: boolean;
+  id?: number;
+  n?: number;
 }
 
 interface UpdateContextDataParams {
@@ -201,7 +203,14 @@ function InscribeTransferStep({ contextData, updateContextData }: StepProps) {
     try {
       tools.showLoading(true);
       const amount = parseInt(inputAmount);
-      const order = await wallet.inscribeBRC20Transfer(account.address, contextData.ticker, amount.toString(), feeRate);
+      const order = await wallet.inscribeORC20Transfer(
+        account.address,
+        contextData.ticker,
+        amount.toString(),
+        feeRate,
+        contextData.id || 0,
+        contextData.n || 0
+      );
       const rawTxInfo = await createBitcoinTx({ address: order.payAddress, domain: '' }, order.totalFee, feeRate);
       updateContextData({ order, amount, rawTxInfo, step: Step.STEP2 });
     } catch (e) {
@@ -547,7 +556,7 @@ function InscribeResultStep({
   const navigate = useNavigate();
   const [result, setResult] = useState<any>();
   const checkResult = async () => {
-    const result = await wallet.getInscribeResult(order.orderId);
+    const result = await wallet.getInscribeOrc20Result(order.orderId);
     if (!result) {
       setTimeout(() => {
         checkResult();
@@ -565,7 +574,7 @@ function InscribeResultStep({
   const onClickConfirm = () => {
     tools.showLoading(true);
     wallet
-      .getBRC20Summary(currentAccount.address, tokenBalance.ticker)
+      .getORC20Summary(currentAccount.address, tokenBalance.ticker)
       .then((v) => {
         if (contextData.isApproval) {
           resolveApproval({

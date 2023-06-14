@@ -38,7 +38,7 @@ export default function BRC20TokenScreen() {
 
   const account = useCurrentAccount();
   useEffect(() => {
-    wallet.getBRC20Summary(account.address, ticker).then((tokenSummary) => {
+    wallet.getORC20Summary(account.address, ticker).then((tokenSummary) => {
       setTokenSummary(tokenSummary);
     });
   }, []);

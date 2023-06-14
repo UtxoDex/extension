@@ -168,6 +168,7 @@ export interface TokenBalance {
   transferableBalance: string;
   availableBalanceSafe: string;
   availableBalanceUnSafe: string;
+  id?:string
 }
 
 export interface TokenInfo {
