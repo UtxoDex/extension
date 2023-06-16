@@ -1,0 +1,423 @@
+@prefix = https://unisat.io/wallet-api-v4
+
+### 钱包配置信息
+GET  {{prefix}}/default/config
+Content-Type: application/json
+
+{}
+
+response {
+  version: string;
+  moonPayEnabled: boolean;
+  statusMessage: string;
+}
+
+
+### 地址余额
+GET {{prefix}}/address/balance
+Content-Type: application/json
+
+{
+  address:"bc1qkvwzze86t8s6tfva46e64tuuttj7apulnzf27w"
+}
+
+response {
+  confirm_amount: string;
+  pending_amount: string;
+  amount: string;
+  confirm_btc_amount: string;
+  pending_btc_amount: string;
+  btc_amount: string;
+  confirm_inscription_amount: string;
+  pending_inscription_amount: string;
+  inscription_amount: string;
+  usd_value: string;
+}
+### /address/multi-assets
+GET  {{prefix}}/address/multi-assets
+Content-Type: application/json
+
+{
+  addresses:""
+}
+
+response [{ 
+  total_btc: string;
+  satoshis?: number;
+  total_inscription: number;
+}]
+
+###/address/btc-utxo
+GET {{prefix}}/address/btc-utxo
+Content-Type: application/json
+
+{
+  address:""
+}
+
+response [{
+  txId: string;
+  outputIndex: number;
+  satoshis: number;
+  scriptPk: string;
+  addressType: AddressType;
+  inscriptions: {
+    id: string;
+    num: number;
+    offset: number;
+  }[];
+}]
+
+### /inscription/utxo
+GET {{prefix}}/inscription/utxo
+Content-Type: application/json
+
+{
+  inscriptionId:""
+}
+
+response {
+  txId: string;
+  outputIndex: number;
+  satoshis: number;
+  scriptPk: string;
+  addressType: AddressType;
+  inscriptions: {
+    id: string;
+    num: number;
+    offset: number;
+  }[];
+}
+
+###/inscription/utxos
+POST {{prefix}}/inscription/utxos
+Content-Type: application/json
+
+{
+  inscriptionIds:[""]
+}
+
+response [{
+  txId: string;
+  outputIndex: number;
+  satoshis: number;
+  scriptPk: string;
+  addressType: AddressType;
+  inscriptions: {
+    id: string;
+    num: number;
+    offset: number;
+  }[];
+}]
+
+###/address/recent-history
+GET {{prefix}}/address/recent-history
+Content-Type: application/json
+
+{
+  address:""
+}
+
+response [{
+  txid: string;
+  time: number;
+  date: string;
+  amount: string;
+  symbol: string;
+  address: string;
+}]
+
+###/default/inscription-summary
+GET  {{prefix}}/default/inscription-summary
+Content-Type: application/json
+
+{}
+
+response {
+  mintedList:[
+    {
+      title:string,
+      desc:string,
+      inscriptoins:[
+        {
+          inscriptionId: string;
+          inscriptionNumber: number;
+          address: string;
+          outputValue: number;
+          preview: string;
+          content: string;
+          contentType: string;
+          contentLength: number;
+          timestamp: number;
+          genesisTransaction: string;
+          location: string;
+          output: string;
+          offset: number;
+          contentBody: string;
+        }
+      ]
+    }
+  ]
+}
+
+###/default/app-summary
+GET {{prefix}}/default/app-summary
+Content-Type: application/json
+
+{}
+
+response {
+   apps: [
+     {
+      tag: string;
+      list: [
+        {
+          logo: string;
+          title: string;
+          desc: string;
+          url: string;
+        }
+      ];
+    }
+  ];
+}
+
+###/tx/broadcast
+POST {{prefix}}/tx/broadcast
+Content-Type: application/json
+
+{
+  rawtx:""
+}
+
+response string
+
+###/default/fee-summary
+GET {{prefix}}/default/fee-summary
+Content-Type: application/json
+
+{}
+
+response {
+   list: [
+    {
+      title: string;
+      desc: string;
+      feeRate: number;
+    }
+  ]
+}
+
+###/address/search
+GET {{prefix}}/address/search
+Content-Type: application/json
+
+{
+  domain:""
+}
+
+response {
+    inscriptionId: string;
+    inscriptionNumber: number;
+    address: string;
+    outputValue: number;
+    preview: string;
+    content: string;
+    contentType: string;
+    contentLength: number;
+    timestamp: number;
+    genesisTransaction: string;
+    location: string;
+    output: string;
+    offset: number;
+    contentBody: string;
+}
+
+###/brc20/inscribe-transfer
+POST {{prefix}}/brc20/inscribe-transfer
+Content-Type: application/json
+
+{
+   address:"", tick:"", amount:"", feeRate:0
+}
+
+response {
+    orderId: string;
+    payAddress: string;
+    totalFee: number;
+    minerFee: number;
+    originServiceFee: number;
+    serviceFee: number;
+    outputValue: number;
+}
+
+###/brc20/order-result
+GET {{prefix}}/brc20/order-result
+Content-Type: application/json
+
+{
+  orderId:""
+}
+
+response {
+  ticker: string;
+  amount: string;
+  inscriptionId: string;
+  inscriptionNumber: number;
+  timestamp: number;
+}
+
+###/brc20/tokens
+GET {{prefix}}/brc20/tokens
+Content-Type: application/json
+
+{
+  address:"", cursor:0, size:10
+}
+
+response {
+  list:[
+    {
+        availableBalance: string;
+        overallBalance: string;
+        ticker: string;
+        transferableBalance: string;
+        availableBalanceSafe: string;
+        availableBalanceUnSafe: string;
+    }
+  ],
+  total:10
+}
+
+###/brc20/token-summary
+GET {{prefix}}/brc20/token-summary
+Content-Type: application/json
+
+{
+   address:"", ticker: encodeURIComponent("ticker") 
+}
+
+response {
+  tokenInfo: {
+     totalSupply: string;
+    totalMinted: string;
+  },
+  tokenBalance: {
+     availableBalance: string;
+      overallBalance: string;
+      ticker: string;
+      transferableBalance: string;
+      availableBalanceSafe: string;
+      availableBalanceUnSafe: string;
+  },
+  historyList: [
+    {
+      ticker: string;
+      amount: string;
+      inscriptionId: string;
+      inscriptionNumber: number;
+      timestamp: number;
+    }
+  ],
+  transferableList: [
+     {
+        ticker: string;
+        amount: string;
+        inscriptionId: string;
+        inscriptionNumber: number;
+        timestamp: number;
+    }
+  ]
+}
+
+###/brc20/transferable-list
+GET {{prefix}}/brc20/transferable-list
+Content-Type: application/json
+
+{
+  address:"",
+  ticker: encodeURIComponent("ticker"),
+  cursor:0,
+  size:0
+}
+
+response {
+  list:[
+     {
+        ticker: string;
+        amount: string;
+        inscriptionId: string;
+        inscriptionNumber: number;
+        timestamp: number;
+    }
+  ],
+  total:10
+}
+
+###/tx/decode
+POST {{prefix}}/tx/decode
+Content-Type: application/json
+
+{
+  psbtHex:""
+}
+
+response {
+   inputInfos: [{
+    txid: string;
+    vout: number;
+    address: string;
+    value: number;
+    inscriptions: [
+      {
+        inscriptionId: string;
+        inscriptionNumber: number;
+        address: string;
+        outputValue: number;
+        preview: string;
+        content: string;
+        contentType: string;
+        contentLength: number;
+        timestamp: number;
+        genesisTransaction: string;
+        location: string;
+        output: string;
+        offset: number;
+        contentBody: string;
+      }
+    ];
+    sighashType: number;
+  }];
+  outputInfos: [{
+    address: string;
+    value: number;
+    inscriptions:[
+      {
+        inscriptionId: string;
+        inscriptionNumber: number;
+        address: string;
+        outputValue: number;
+        preview: string;
+        content: string;
+        contentType: string;
+        contentLength: number;
+        timestamp: number;
+        genesisTransaction: string;
+        location: string;
+        output: string;
+        offset: number;
+        contentBody: string;
+      }
+    ];
+  }];
+  feeRate: number;
+  fee: number;
+}
+
+###/moonpay/create
+POST  {{prefix}}/moonpay/create
+Content-Type: application/json
+
+{address:""}
+
+response string
