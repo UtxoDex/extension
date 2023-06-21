@@ -12,6 +12,7 @@ import { Input } from './Input';
 import { Layout } from './Layout';
 import { Logo } from './Logo';
 import { Row } from './Row';
+import { StackComp } from './Stack';
 import { Text } from './Text';
 import { TextArea } from './TextArea';
 
@@ -31,5 +32,6 @@ export {
   Card,
   Grid,
   Image,
-  TextArea
+  TextArea,
+  StackComp
 };

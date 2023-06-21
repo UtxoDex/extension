@@ -81,7 +81,7 @@ export function TabBar(props: TabBarProps) {
         const isSelected = v.key === tabKey;
         if (progressEnabled && index > progress) {
           return (
-            <Column key={v.key}>
+            <Column key={v.key} classname="tab-item ">
               <Text text={v.label} color={'textDim'} />
             </Column>
           );
@@ -89,11 +89,11 @@ export function TabBar(props: TabBarProps) {
           return (
             <Column
               key={v.key}
-              classname={isSelected ? 'selected-tab' : ''}
+              classname={isSelected ? 'selected-tab' : 'tab-item'}
               onClick={() => {
                 setTabKey(v.key);
               }}>
-              <Text text={v.label} color={isSelected ? 'gold' : 'white'} />
+              <Text text={v.label} color={isSelected ? 'white' : 'white'} />
             </Column>
           );
         }

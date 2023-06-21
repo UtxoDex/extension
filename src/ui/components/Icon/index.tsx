@@ -21,10 +21,11 @@ export const svgRegistry = {
   qrcode: './images/icons/qrcode.svg',
 
   user: '/images/icons/user-solid.svg',
-  wallet: '/images/icons/wallet-solid.svg',
+  wallet: '/images/icons/wallet.svg',
   compass: './images/icons/compass-solid.svg',
   settings: './images/icons/gear-solid.svg',
   grid: './images/icons/grid-solid.svg',
+  setting: './images/icons/setting.svg',
 
   delete: '/images/icons/delete.svg',
   success: '/images/icons/success.svg',
@@ -38,7 +39,10 @@ export const svgRegistry = {
   pencil: '/images/icons/pencil.svg',
   'circle-info': '/images/icons/circle-info.svg',
   bitcoin: './images/icons/bitcoin.svg',
-  'circle-question': '/images/icons/circle-question.svg'
+  'circle-question': '/images/icons/circle-question.svg',
+
+  nft: './images/icons/nft.svg',
+  more: './images/icons/more.svg'
 };
 
 const iconImgList: Array<IconTypes> = ['success', 'delete', 'btc'];

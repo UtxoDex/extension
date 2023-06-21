@@ -2,20 +2,20 @@ import { Tooltip } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
 
 import { KEYRING_TYPE } from '@/shared/constant';
-import { TokenBalance, NetworkType, Inscription } from '@/shared/types';
-import { Card, Column, Content, Footer, Header, Icon, Layout, Row, Text } from '@/ui/components';
+import { TokenBalance, NetworkType, Inscription, Orc20TokenBalance } from '@/shared/types';
+import { Column, Content, Footer, Icon, Layout, Row, Text } from '@/ui/components';
 import AccountSelect from '@/ui/components/AccountSelect';
 import { useTools } from '@/ui/components/ActionComponent';
 import { AddressBar } from '@/ui/components/AddressBar';
 import BRC20BalanceCard from '@/ui/components/BRC20BalanceCard';
-import { Button } from '@/ui/components/Button';
 import { Empty } from '@/ui/components/Empty';
 import InscriptionPreview from '@/ui/components/InscriptionPreview';
 import { NavTabBar } from '@/ui/components/NavTabBar';
 import ORC20BalanceCard from '@/ui/components/ORC20BalanceCard';
 import { Pagination } from '@/ui/components/Pagination';
+import { Stack } from '@/ui/components/Stack';
 import { TabBar } from '@/ui/components/TabBar';
-import { UpgradePopver } from '@/ui/components/UpgradePopver';
+import { StackBtns } from '@/ui/components/Wallet-btns';
 import { getCurrentTab } from '@/ui/features/browser/tabs';
 import { useAccountBalance, useCurrentAccount } from '@/ui/state/accounts/hooks';
 import { useAppDispatch } from '@/ui/state/hooks';
@@ -102,94 +102,36 @@ export default function WalletTabScreen() {
 
   return (
     <Layout>
-      <Header
-        LeftComponent={
-          <Column>
-            {connected && (
-              <Row
-                itemsCenter
-                onClick={() => {
-                  navigate('ConnectedSitesScreen');
-                }}>
-                <Text text="·" color="green" size="xxl" />
-                <Text text="Dapp Connected" size="xxs" />
-              </Row>
-            )}
-          </Column>
-        }
-        RightComponent={
-          <Card
-            preset="style2"
-            onClick={() => {
-              navigate('SwitchKeyringScreen');
-            }}>
-            <Text text={currentKeyring.alianName} size="xxs" />
-          </Card>
-        }
-      />
       <Content>
         <Column gap="xl">
           {currentKeyring.type === KEYRING_TYPE.HdKeyring && <AccountSelect />}
-
           {isTestNetwork && <Text text="Bitcoin Testnet is used for testing." color="danger" textCenter />}
+          {/* {walletConfig.statusMessage && <Text text={walletConfig.statusMessage} color="danger" textCenter />} */}
 
-          {walletConfig.statusMessage && <Text text={walletConfig.statusMessage} color="danger" textCenter />}
-
-          <Tooltip
-            title={
-              <span>
-                <Row justifyBetween>
-                  <span>{'BTC Balance'}</span>
-                  <span>{` ${accountBalance.btc_amount} BTC`}</span>
-                </Row>
-                <Row justifyBetween>
-                  <span>{'Inscription Balance'}</span>
-                  <span>{` ${accountBalance.inscription_amount} BTC`}</span>
-                </Row>
-              </span>
-            }
-            overlayStyle={{
-              fontSize: fontSizes.xs
-            }}>
-            <div>
-              <Text text={balanceValue + '  BTC'} preset="title-bold" textCenter size="xxxl" />
-            </div>
-          </Tooltip>
-
-          <AddressBar />
-
-          <Row justifyBetween>
-            <Button
-              text="Receive"
-              preset="default"
-              icon="receive"
-              onClick={(e) => {
-                navigate('ReceiveScreen');
-              }}
-              full
-            />
-
-            <Button
-              text="Send"
-              preset="default"
-              icon="send"
-              onClick={(e) => {
-                navigate('TxCreateScreen');
-              }}
-              full
-            />
-            {walletConfig.moonPayEnabled && (
-              <Button
-                text="Buy"
-                preset="default"
-                icon="bitcoin"
-                onClick={(e) => {
-                  navigate('MoonPayScreen');
-                }}
-                full
-              />
-            )}
-          </Row>
+          <Stack>
+            <AddressBar />
+            <Tooltip
+              title={
+                <span>
+                  <Row justifyBetween>
+                    <span>{'BTC Balance'}</span>
+                    <span>{` ${accountBalance.btc_amount} BTC`}</span>
+                  </Row>
+                  <Row justifyBetween>
+                    <span>{'Inscription Balance'}</span>
+                    <span>{` ${accountBalance.inscription_amount} BTC`}</span>
+                  </Row>
+                </span>
+              }
+              overlayStyle={{
+                fontSize: fontSizes.xs
+              }}>
+              <div>
+                <Text text={balanceValue + '  BTC'} preset="title-bold" textCenter size="xxxl" />
+              </div>
+            </Tooltip>
+            <StackBtns />
+          </Stack>
 
           <Row justifyBetween>
             <TabBar
@@ -200,6 +142,7 @@ export default function WalletTabScreen() {
                 dispatch(uiActions.updateWalletTabScreen({ tabKey: key }));
               }}
             />
+
             <Row
               itemsCenter
               onClick={() => {
@@ -212,13 +155,13 @@ export default function WalletTabScreen() {
 
           {tabItems[tabKey].children}
         </Column>
-        {!versionInfo.skipped && (
+        {/* {!versionInfo.skipped && (
           <UpgradePopver
             onClose={() => {
               skipVersion(versionInfo.newVersion);
             }}
           />
-        )}
+        )} */}
       </Content>
       <Footer px="zero" py="zero">
         <NavTabBar tab="home" />
@@ -307,7 +250,7 @@ function ORC20List() {
   const wallet = useWallet();
   const currentAccount = useCurrentAccount();
 
-  const [tokens, setTokens] = useState<TokenBalance[]>([]);
+  const [tokens, setTokens] = useState<Orc20TokenBalance[]>([]);
   const [total, setTotal] = useState(-1);
   const [pagination, setPagination] = useState({ currentPage: 1, pageSize: 100 });
 
@@ -324,8 +267,17 @@ function ORC20List() {
       setTotal(total);
     } catch (e) {
       tools.toastError((e as Error).message);
+      // setTokens([
+      //   {
+      //     ticker: 'yyxy',
+      //     overallBalance: '2',
+      //     transferableBalance: '2',
+      //     availableBalance: '0'
+      //   }
+      // ]);
+      // setTotal(1);
     } finally {
-      // tools.showLoading(false);
+      tools.showLoading(false);
     }
   };
 
@@ -349,15 +301,23 @@ function ORC20List() {
     );
   }
 
+  const tableKeys = ['Ticker', 'Transferable', 'Available', 'Balance'];
   return (
     <Column>
+      {total > 0 && (
+        <Row gap="lg" style={{ display: 'flex', justifyContent: 'space-around', color: 'rgba(255, 255, 255, 0.5)' }}>
+          {tableKeys.map((key, index) => {
+            return <span key={index}>{key}</span>;
+          })}
+        </Row>
+      )}
       <Row style={{ flexWrap: 'wrap' }} gap="sm">
         {tokens.map((data, index) => (
           <ORC20BalanceCard
             key={index}
             tokenBalance={data}
             onClick={() => {
-              navigate('ORC20TokenScreen', { tokenBalance: data, ticker: data.ticker });
+              navigate('ORC20TokenScreen', { tokenBalance: data, ticker: data.ticker, id: data.id });
             }}
           />
         ))}

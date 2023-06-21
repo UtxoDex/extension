@@ -63,18 +63,18 @@ export interface PreferenceStore {
         total: number;
         list: TokenBalance[];
       }[];
-      orc20List:{
+      orc20List: {
         currentPage: number;
         pageSize: number;
         total: number;
         list: TokenBalance[];
-      }[],
+      }[];
       brc20Summary: {
         [ticker: string]: AddressTokenSummary;
       };
-      orc20Summary:{
-        [id:string]:AddressTokenSummary
-      }
+      orc20Summary: {
+        [id: string]: AddressTokenSummary;
+      };
       brc20TransferableList: {
         [ticker: string]: {
           currentPage: number;
@@ -389,8 +389,9 @@ class PreferenceService {
     this.store.uiCachedData[address] = {
       allInscriptionList: [],
       brc20List: [],
-      orc20List:[],
+      orc20List: [],
       brc20Summary: {},
+      orc20Summary: {},
       brc20TransferableList: {}
     };
 
@@ -409,7 +410,9 @@ class PreferenceService {
     this.store.uiCachedData[address] = {
       allInscriptionList: [],
       brc20List: [],
+      orc20List: [],
       brc20Summary: {},
+      orc20Summary: {},
       brc20TransferableList: {}
     };
   };

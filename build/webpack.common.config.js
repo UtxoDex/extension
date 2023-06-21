@@ -26,7 +26,7 @@ const config = (env) => {
   const channel = env.channel;
   // Check if Tailwind config exists
   const useTailwind = fs.existsSync(path.join(paths.appPath, 'tailwind.config.js'));
-
+  console.log(useTailwind, '/useTailwind');
   const shouldUseSourceMap = false;
   const imageInlineSizeLimit = parseInt(process.env.IMAGE_INLINE_SIZE_LIMIT || '10000');
   const isEnvDevelopment = true;
@@ -102,7 +102,7 @@ const config = (env) => {
               'primary-color': 'rgb(234,202,68)',
               'primary-color-active': '#1e293b',
               'input-icon-hover-color': '#FFFFFF',
-              'component-background': '#0f172a',
+              'component-background': '#121314',
               'select-dropdown-bg': '#020617',
               'select-item-selected-bg': '#332F2F',
               'select-item-active-bg': '#332F2F',

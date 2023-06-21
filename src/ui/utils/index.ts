@@ -165,6 +165,6 @@ export function useLocationState<T>() {
   return state as T;
 }
 
-export function useBaseLocationUri (){
-  return  process.env.NODE_ENV === 'production' ? 'https://utxodex.com' : 'http://localhost:3000';
+export function useBaseLocationUri() {
+  return process?.env.NODE_ENV === 'production' ? 'https://utxodex.com' : 'http://localhost:3000/';
 }

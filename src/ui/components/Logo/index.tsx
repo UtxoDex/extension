@@ -13,7 +13,7 @@ export function Logo(props: { preset?: 'large' | 'small' }) {
         <Text text="Utxodex" preset="title-bold" size="xxl" />
         <Text
           size="sm"
-          text="Bate"
+          text="Beta"
           style={{ background: '#020617', padding: '3px 5px', borderRadius: '5px', color: '#9ca3af' }}
         />
       </Row>
@@ -25,7 +25,7 @@ export function Logo(props: { preset?: 'large' | 'small' }) {
         <Text text="Utxodex" preset="title-bold" />
         <Text
           size="xs"
-          text="Bate"
+          text="Beta"
           style={{ background: '#020617', padding: '3px 5px', borderRadius: '5px', color: '#9ca3af' }}
         />
       </Row>

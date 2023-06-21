@@ -1,11 +1,16 @@
 const plugin = require('tailwindcss/plugin');
-
+// const colors = require('tailwindcss/colors');
 module.exports = {
   // purge: [
   //   './src/**/*.html',
   //   './src/**/*.js',
   // ],
-  content: ['./index.html', './src/**/*.{js,jsx,ts,tsx,vue}'],
+  content: [
+    './index.html',
+    './src/**/*.{js,jsx,ts,tsx,vue}',
+    'node_modules/daisyui/dist/**/*.js',
+    'node_modules/react-daisyui/dist/**/*.js'
+  ],
   theme: {
     extend: {
       transitionDuration: {
@@ -19,9 +24,9 @@ module.exports = {
       },
       colors: {
         primary: 'rgb(234,202,68)',
-        'primary-active': '#0f172a',
-        'hard-black': '#0f172a',
-        'soft-black': '#0f172a',
+        'primary-active': '#121314',
+        'hard-black': '#121314',
+        'soft-black': '#121314',
         'soft-white': '#AAAAAA',
         'custom-green': '#4BB21A',
         'custom-green-rgba': 'rgba(75, 178, 26, 0.05)',
@@ -129,6 +134,7 @@ module.exports = {
     }
   },
   plugins: [
+    require('daisyui'),
     // example: !bg-white ==> background: white !important;
     plugin(function ({ addVariant }) {
       addVariant('important', ({ container }) => {

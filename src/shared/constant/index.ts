@@ -227,7 +227,7 @@ export const INTERNAL_REQUEST_SESSION = {
   icon: './images/logo/logo@128x.png'
 };
 
-export const ORC20_OPENAPI_URL_MAINNET = 'http://localhost:3000'
+export const ORC20_OPENAPI_URL_MAINNET = 'http://localhost:3000';
 export const OPENAPI_URL_MAINNET = 'https://unisat.io/wallet-api-v4';
 export const OPENAPI_URL_TESTNET = 'https://unisat.io/testnet/wallet-api-v4';
 

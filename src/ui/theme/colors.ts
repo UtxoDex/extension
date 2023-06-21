@@ -3,7 +3,7 @@
 const palette = {
   white: '#ffffff',
   white_muted: 'rgba(255, 255, 255, 0.5)',
-  black: '#e2e8f0',
+  black: 'rgba(255, 255, 255, 0.8)',
   black_muted: 'rgba(0, 0, 0, 0.5)',
   black_muted2: 'rgba(0, 0, 0, 0.)',
 
@@ -55,7 +55,7 @@ export const colors = Object.assign({}, palette, {
 
   bg2: '#020617',
   bg3: '#434242',
-  bg4: '#334155',
+  bg4: 'rgba(255, 255, 255, 0.04)',
 
   border: 'rgba(255,255,255,0.1)'
 });

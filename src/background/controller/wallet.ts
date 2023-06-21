@@ -1075,18 +1075,28 @@ export class WalletController extends BaseController {
     uiCachedData.brc20Summary[ticker] = tokenSummary;
     return tokenSummary;
   };
-  getORC20Summary = async (address: string, inscribleId: string) => {
+  getORC20Summary = async (address: string, id: string) => {
     const uiCachedData = preferenceService.getUICachedData(address);
-    if (uiCachedData.orc20Summary[inscribleId]) {
-      return uiCachedData.orc20Summary[inscribleId];
+    if (uiCachedData.brc20Summary[id]) {
+      return uiCachedData.brc20Summary[id];
     }
 
-    const tokenSummary = await openapiService.getAddressOrc20TokenSummary(address, inscribleId);
-    console.log(tokenSummary, '/tokenSummary');
-
-    uiCachedData.orc20Summary[inscribleId] = tokenSummary;
+    const tokenSummary = await openapiService.getAddressOrc20TokenSummary(address, id);
+    uiCachedData.brc20Summary[id] = tokenSummary;
     return tokenSummary;
   };
+  // getORC20Summary = async (address: string, inscribleId: string) => {
+  //   const uiCachedData = preferenceService.getUICachedData(address);
+  //   if (uiCachedData.orc20Summary[inscribleId]) {
+  //     return uiCachedData.orc20Summary[inscribleId];
+  //   }
+
+  //   const tokenSummary = await openapiService.getAddressOrc20TokenSummary(address, inscribleId);
+  //   console.log(tokenSummary, '/tokenSummary');
+
+  //   uiCachedData.orc20Summary[inscribleId] = tokenSummary;
+  //   return tokenSummary;
+  // };
 
   getBRC20TransferableList = async (address: string, ticker: string, currentPage: number, pageSize: number) => {
     const cursor = (currentPage - 1) * pageSize;

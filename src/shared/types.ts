@@ -168,7 +168,15 @@ export interface TokenBalance {
   transferableBalance: string;
   availableBalanceSafe: string;
   availableBalanceUnSafe: string;
-  id?:string
+}
+export interface Orc20TokenBalance {
+  availableBalance: string;
+  overallBalance: string;
+  ticker: string;
+  transferableBalance: string;
+  availableBalanceSafe: string;
+  availableBalanceUnSafe: string;
+  id: string;
 }
 
 export interface TokenInfo {
